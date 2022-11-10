@@ -15,20 +15,27 @@
          * @param conn, connection to the database
          */
         function topArtistTable($input, $conn) {
+            // print_r("adding...");
             $sql = 'DELETE FROM topArtists;';
             $conn->query($sql);
+            
+            // print_r($youtube);
             $id = 0;
             foreach($input->artists as $k=>$v): 
+                
                 foreach($v->artist as $q=>$w): 
+                    $youtube = $this->getYouTube($w->name);
+                    // print_r($youtube[2]);
                     $id++;
-                    $insert = "\"$id\", \"$w->name\", \"$w->listeners\", \"$w->url\" "; //inside the insert it would make calls to the youtube / google api and use the return to return it to the database
-                    $sql .= "INSERT INTO topArtists (id, artist_name, youtube_URL, artists_picture) VALUES ($insert); ";
+                    $insert = "\"$id\", \"$w->name\", \"$w->listeners\", \"$w->url\", $youtube[0], $youtube[1], $youtube[2]"; //inside the insert it would make calls to the youtube / google api and use the return to return it to the database
+                    $sql .= "INSERT INTO topArtists (id, artist_name, listeners, artist_image, videoID, youtube_title, youtube_description) VALUES ($insert); ";
+                    // print_r($sql);
                  endforeach;
             endforeach;
             if ($conn->multi_query($sql) === TRUE) {
                 echo "new records created successfully";
             } else {
-                echo "error adding records " . $conn->error;
+                print_r("error adding records " . $conn->error); 
             }
             // return $sql;
         }
@@ -66,14 +73,14 @@
          * @return xml, the data in raw XML form, not parsed
          */
         function getTopArtists() {
-            $curl = curl_init("http://ws.audioscrobbler.com/2.0/?method=chart.gettopartists&api_key=$this->apiKey");
+            $curl = curl_init("http://ws.audioscrobbler.com/2.0/?method=chart.gettopartists&api_key=$this->apiKey&limit=2");
             curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
             curl_setopt($curl, CURLOPT_HEADER, 0);
             curl_setopt($curl, CURLOPT_TIMEOUT, 3);
             $data = curl_exec($curl);
             curl_close($curl);
             $xml = new SimpleXMLElement($data);
-            print_r($xml);
+            // print_r($xml);
             return $xml;
         }
 
@@ -95,9 +102,9 @@
         }
 
         function getYouTube($keyword) {
-            $keyword = str_replace(' ', '_', $keyword); //adds underscore in replace of spaces for the API
-
-            $googleApiUrl = 'https://www.googleapis.com/youtube/v3/search?part=snippet&q=' . $keyword . '&maxResults=' . 5 . '&key=AIzaSyD2k9T1_-0DQNAIWs2-omJAnrR1TZSFYhg';
+            $keyword = str_replace(' ', '%7C', $keyword); //adds space character in replace of spaces for the API
+            print_r($keyword);
+            $googleApiUrl = 'https://www.googleapis.com/youtube/v3/search?part=snippet&q=' . $keyword . '&maxResults=' . 2 . '&key=AIzaSyC9kOiRQ1CU1ZVNlfVB63Sl7IjGH5HZ9eQ';
             $ch = curl_init();
             curl_setopt($ch, CURLOPT_HEADER, 0);
             curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
@@ -107,8 +114,15 @@
             curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
             $response = curl_exec($ch);
             $data = json_decode($response, true);
-            // print_r($response);
-            return $data;
+
+            $videoId = "\"" . $data['items'][0]['id']['videoId'] . "\"";
+            $title = "\"" . $data['items'][0]['snippet']['title'] . "\"";
+            $description = "\"" . $data['items'][0]['snippet']['description'] . "\"";
+
+            $youtubeArr = [$videoId, $title, $description];
+            // print_r($data);
+            // print_r($videoId);
+            return $youtubeArr;
         }
 
         function getImage($keyword) {

@@ -8,10 +8,10 @@
     // $topartists = $capstone->getTopArtists();
     // $topTracks = $capstone->getTopTracks();
 
-    $getYouTube = $capstone->getYouTube("funny dogs");
+    // $getYouTube = $capstone->getYouTube("taylor swift");
 
     /* Add API connection results to database */
-    // $artistSQL = $capstone->topArtistsTable($capstone->getTopArtists(), $conn);
+    $artistSQL = $capstone->topArtistTable($capstone->getTopArtists(), $conn);
     // $trackSQL = $capstone->topSongsTable($capstone->getTopTracks(), $conn);
 
     /* Select all records from database */
@@ -28,6 +28,7 @@
     </head>
     <body>
         <?php
+        print_r($artistSQL);
             // while($row = $allArtists->fetch_assoc()) {
             //     echo "id: " . $row["id"]. " - Name: " . $row["artist"]. " " . $row["playcount"]. "<br>";
             // }
@@ -35,16 +36,16 @@
             //     echo "id: " . $row["id"]. " - Name: " . $row["artist_name"] . "<br>";
             // }
 
-            for ($i = 0; $i < 5; $i++) {
-                $videoId = $getYouTube['items'][$i]['id']['videoId'];
-                $title = $getYouTube['items'][$i]['snippet']['title'];
-                $description = $getYouTube['items'][$i]['snippet']['description'];
-                print_r($videoId);
-                print_r($title);
-                print_r($description);
-            }
+            // for ($i = 0; $i < 5; $i++) {
+                // $videoId = $getYouTube['items'][1]['id']['videoId'];
+                // $title = $getYouTube['items'][1]['snippet']['title'];
+                // $description = $getYouTube['items'][1]['snippet']['description'];
+                // print_r($videoId);
+                // print_r($title);
+                // print_r($description);
+            // }
 
-            // echo $getYouTube['items'][1]['id']['videoId'];
+            // echo $getYouTube;
 
             // foreach($getYouTube->id as $k=>$v) {
             //     echo $v->videoId;
