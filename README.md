@@ -1,6 +1,11 @@
 # C&I Capstone
-This is my capstone project for my Computing and Informatics major at Rowan University.
+This is our capstone project for Computing and Informatics majors at Rowan University.
 Fall 2022.
+
+Group members:
+- Devon Barclay
+-
+-
 
 Goals of this project:
 - Connect to an API

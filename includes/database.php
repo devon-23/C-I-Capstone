@@ -5,10 +5,10 @@
      *  @return object Connection to a MySQL server
      */
     function getDB() {
-        $db_host = "localhost";
-        $db_name = "barcla29";
-        $db_user = "barcla29";
-        $db_pass = "1Blushingpig!";
+        $db_host = "sql9.freemysqlhosting.net";
+        $db_name = "sql9556147";
+        $db_user = "sql9556147";
+        $db_pass = "yNEXvCef8f";
 
         $conn = mysqli_connect($db_host, $db_user, $db_pass, $db_name);
 
@@ -16,7 +16,7 @@
             echo mysqli_connect_error();
             exit;
         }
-        // print_r("Connected");
+        print_r("Connected");
         return $conn;
     }
 ?>
