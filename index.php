@@ -9,6 +9,7 @@
     // $topTracks = $capstone->getTopTracks();
 
     // $getYouTube = $capstone->getYouTube("taylor swift");
+    // $getImage = $capstone->getImage("taylor swift");
 
     /* Add API connection results to database */
     $artistSQL = $capstone->topArtistTable($capstone->getTopArtists(), $conn);
@@ -28,7 +29,7 @@
     </head>
     <body>
         <?php
-        print_r($artistSQL);
+        // print_r($artistSQL);
             // while($row = $allArtists->fetch_assoc()) {
             //     echo "id: " . $row["id"]. " - Name: " . $row["artist"]. " " . $row["playcount"]. "<br>";
             // }
