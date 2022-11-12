@@ -7,12 +7,11 @@
     /* API call connection */
     // $topartists = $capstone->getTopArtists();
     // $topTracks = $capstone->getTopTracks();
-
     // $getYouTube = $capstone->getYouTube("taylor swift");
     // $getImage = $capstone->getImage("taylor swift");
 
     /* Add API connection results to database */
-    $artistSQL = $capstone->topArtistTable($capstone->getTopArtists(), $conn);
+    // $artistSQL = $capstone->topArtistTable($capstone->getTopArtists(), $conn);
     // $trackSQL = $capstone->topSongsTable($capstone->getTopTracks(), $conn);
 
     /* Select all records from database */

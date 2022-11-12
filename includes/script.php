@@ -46,19 +46,25 @@
          * @param conn, connection to the database
          */
         function topSongsTable($input, $conn) {
-            $sql = 'DELETE FROM topTracks;';
+            $sql = 'DELETE FROM topSongs;';
             $conn->query($sql);
             $id = 0;
             foreach($input->tracks as $k=>$v): 
                 foreach($v->track as $q=>$w): 
+                    $trackName = $w->name;
                     $id++;
-                    $insert = "\"$id\", \"$w->name\", \"$w->duration\", \"$w->playcount\", \"$w->listeners\", \"$w->url\", ";
+                    $insert = "\"$id\", \"$w->name\", \"$w->playcount\", \"$w->listeners\", ";
                     foreach($w->artist as $r=>$t):
-                        $insert .= "\"$t->name\", \"$t->url\"";
-                        $sql .= "INSERT INTO topTracks (id, track_name, duration, playcount, listeners, song_url, artist, artist_url) VALUES ($insert); ";
+                        $query = $trackName . " by " . $t->name;
+                        $youtube = $this->getYouTube($query);
+                        $query = $query . " album artwork";
+                        $image = $this->getImage($query);
+                        $insert .= "\"$t->name\", \"$image\", \"$youtube[0]\", \"$youtube[1]\", \"$youtube[2]\"";
+                        $sql .= "INSERT INTO topSongs (id, song_name, playcount, listeners, artist_name, album_image, videoID, youtube_title, youtube_description) VALUES ($insert); ";
                     endforeach;
                 endforeach;
             endforeach;
+            print_r($sql);
             if ($conn->multi_query($sql) === TRUE) {
                 echo "new records created successfully";
             } else {
@@ -72,7 +78,7 @@
          * @return xml, the data in raw XML form, not parsed
          */
         function getTopArtists() {
-            $curl = curl_init("http://ws.audioscrobbler.com/2.0/?method=chart.gettopartists&api_key=$this->apiKey&limit=3");
+            $curl = curl_init("http://ws.audioscrobbler.com/2.0/?method=chart.gettopartists&api_key=$this->apiKey&limit=15");
             curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
             curl_setopt($curl, CURLOPT_HEADER, 0);
             curl_setopt($curl, CURLOPT_TIMEOUT, 3);
@@ -89,21 +95,20 @@
          * @return pml, the XML data in raw form, not parsed
          */
         function getTopTracks() {
-            $curl = curl_init("http://ws.audioscrobbler.com/2.0/?method=chart.gettoptracks&api_key=$this->apiKey");
+            $curl = curl_init("http://ws.audioscrobbler.com/2.0/?method=chart.gettoptracks&api_key=$this->apiKey&limit=15");
             curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
             curl_setopt($curl, CURLOPT_HEADER, 0);
             curl_setopt($curl, CURLOPT_TIMEOUT, 3);
             $data = curl_exec($curl);
             curl_close($curl);
             $pml = new SimpleXMLElement($data);
-            print_r($pml);
+            // print_r($pml);
             return $pml;
         }
 
         function getYouTube($keyword) {
             $keyword = str_replace(' ', '%7C', $keyword); //adds space character in replace of spaces for the API
-            // print_r($keyword);
-            $googleApiUrl = 'https://www.googleapis.com/youtube/v3/search?part=snippet&q=' . $keyword . '&maxResults=' . 2 . '&key=AIzaSyC9kOiRQ1CU1ZVNlfVB63Sl7IjGH5HZ9eQ';
+            $googleApiUrl = 'https://www.googleapis.com/youtube/v3/search?part=snippet&q=' . $keyword . '&maxResults=' . 2 . '&key=';
             $ch = curl_init();
             curl_setopt($ch, CURLOPT_HEADER, 0);
             curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
@@ -122,14 +127,14 @@
             $description = str_replace(['“', '”', "\""], '\'', $description);
 
             $youtubeArr = [$videoId, $title, $description];
-            print_r($description);
+            // print_r($data);
             // print_r($videoId);
             return $youtubeArr;
         }
 
         function getImage($keyword) {
             $keyword = str_replace(' ', '%7C', $keyword);
-            $url = "https://www.googleapis.com/customsearch/v1?key=&cx=8422f2214c20e4bd9&q=$keyword&searchType=image";
+            $url = "https://www.googleapis.com/customsearch/v1?key=AIzaSyCzVc6HvMRm2iCqZeYIXxaJBuwZS3C3XOA&cx=8422f2214c20e4bd9&q=$keyword&searchType=image";
             $ch = curl_init();
             curl_setopt($ch, CURLOPT_HEADER, 0);
             curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
@@ -140,7 +145,7 @@
             $response = curl_exec($ch);
             $data = json_decode($response, true);
             $image = $data['items'][0]['link'];
-            // print_r($data);
+            // print_r($image);
             return $image;
         }
 
@@ -164,7 +169,7 @@
         }
 
         /**
-         * Querys the Database to pull all information from the t opTracks Table
+         * Querys the Database to pull all information from the topTracks Table
          * 
          * @return results
          */
