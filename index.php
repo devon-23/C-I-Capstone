@@ -30,14 +30,16 @@
         <br>
         <?php
             while($row = $allArtists->fetch_assoc()) {
-                echo "id: " . $row["id"]. " - Name: " . $row["artist_name"]. " " . $row["listeners"]. "<br>";
-            }
-            // while($row = $allArtists->fetch_assoc()) {
-            //     echo "id: " . $row["id"]. " - Name: " . $row["artist_name"] . "<br>";
-            // }
-        ?>
-        <h1>
+                echo "id: " . $row["id"]. " - Name: " . $row["artist_name"]. " has " . number_format($row["listeners"]) . " listeners" . "<br>"; ?>
+                <img src="<?= $row["artist_image"]?>" width="100" height="100">
+            <?php
             
+            }
+            
+            ?>
+            
+        <h1>
+            <img src="">
         </h1>
     </body>
 </html>
