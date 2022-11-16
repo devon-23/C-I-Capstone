@@ -16,3 +16,6 @@ This project will use three API's:
   1. LastFM
   2. YouTube
   3. Google Images
+  
+  Live demo can be viewed @
+  http://elvis.rowan.edu/~barcla29/capstone/
