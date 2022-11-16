@@ -23,13 +23,12 @@
                 foreach($v->artist as $q=>$w): 
                     $youtube = $this->getYouTube($w->name);
                     $image = $this->getImage($w->name);
-                    // print_r($image);
+
                     $id++;
                     $insert = "\"$id\", \"$w->name\", \"$w->listeners\", \"$image\", \"$youtube[0]\", \"$youtube[1]\", \"$youtube[2]\"";
                     $sql .= "INSERT INTO topArtists (id, artist_name, listeners, artist_image, videoID, youtube_title, youtube_description) VALUES ($insert); ";
                  endforeach;
             endforeach;
-            print_r($sql);
 
             if ($conn->multi_query($sql) === TRUE) {
                 echo "new records created successfully";
@@ -64,7 +63,7 @@
                     endforeach;
                 endforeach;
             endforeach;
-            print_r($sql);
+
             if ($conn->multi_query($sql) === TRUE) {
                 echo "new records created successfully";
             } else {
@@ -108,7 +107,7 @@
 
         function getYouTube($keyword) {
             $keyword = str_replace(' ', '%7C', $keyword); //adds space character in replace of spaces for the API
-            $googleApiUrl = 'https://www.googleapis.com/youtube/v3/search?part=snippet&q=' . $keyword . '&maxResults=' . 2 . '&key=';
+            $googleApiUrl = 'https://www.googleapis.com/youtube/v3/search?part=snippet&q=' . $keyword . '&maxResults=' . 2 . '&key=AIzaSyAfNA5F6jUrkwf6mpevmo8WaiRslWigI_k';
             $ch = curl_init();
             curl_setopt($ch, CURLOPT_HEADER, 0);
             curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
@@ -174,7 +173,7 @@
          * @return results
          */
         function getAllTracks($conn) {
-            $sql = 'SELECT * FROM topTracks;';
+            $sql = 'SELECT * FROM topSongs;';
 
             $result = $conn->query($sql);
 

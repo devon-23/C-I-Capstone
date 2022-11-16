@@ -11,11 +11,11 @@
     // $getImage = $capstone->getImage("taylor swift");
 
     /* Add API connection results to database */
-    // $artistSQL = $capstone->topArtistTable($capstone->getTopArtists(), $conn);
-    // $trackSQL = $capstone->topSongsTable($capstone->getTopTracks(), $conn);
+    // $artistSQL = $capstone->topArtistTable($capstone->getTopArtists(), $conn); // don't uncomment, it'll delete/update
+    // $trackSQL = $capstone->topSongsTable($capstone->getTopTracks(), $conn); // the database and we only get so many calls to the API's each day 
 
     /* Select all records from database */
-    // $allArtists = $capstone->getAllArtists($conn);
+    $allArtists = $capstone->getAllArtists($conn);
     // $allTracks = $capstone->getAllTracks($conn);
 ?>
 
@@ -27,35 +27,14 @@
         <title>Capstone</title>
     </head>
     <body>
+        <br>
         <?php
-        // print_r($artistSQL);
-            // while($row = $allArtists->fetch_assoc()) {
-            //     echo "id: " . $row["id"]. " - Name: " . $row["artist"]. " " . $row["playcount"]. "<br>";
-            // }
+            while($row = $allArtists->fetch_assoc()) {
+                echo "id: " . $row["id"]. " - Name: " . $row["artist_name"]. " " . $row["listeners"]. "<br>";
+            }
             // while($row = $allArtists->fetch_assoc()) {
             //     echo "id: " . $row["id"]. " - Name: " . $row["artist_name"] . "<br>";
             // }
-
-            // for ($i = 0; $i < 5; $i++) {
-                // $videoId = $getYouTube['items'][1]['id']['videoId'];
-                // $title = $getYouTube['items'][1]['snippet']['title'];
-                // $description = $getYouTube['items'][1]['snippet']['description'];
-                // print_r($videoId);
-                // print_r($title);
-                // print_r($description);
-            // }
-
-            // echo $getYouTube;
-
-            // foreach($getYouTube->id as $k=>$v) {
-            //     echo $v->videoId;
-            // }
-
-            // for ($i = 0; $i < 2; $i++) {
-            //     echo $getYouTube['items'][$i]['id']['videoId'];
-            // }
-                
-            
         ?>
         <h1>
             
