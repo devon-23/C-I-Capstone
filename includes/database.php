@@ -16,7 +16,7 @@
             echo mysqli_connect_error();
             exit;
         }
-        print_r("Connected");
+        // print_r("Connected");
         return $conn;
     }
 ?>

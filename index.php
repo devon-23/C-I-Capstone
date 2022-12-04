@@ -16,7 +16,7 @@
 
     /* Select all records from database */
     $allArtists = $capstone->getAllArtists($conn);
-    // $allTracks = $capstone->getAllTracks($conn);
+    $allTracks = $capstone->getAllTracks($conn);
 ?>
 
 <html lang="en">
@@ -24,22 +24,42 @@
         <meta charset="UTF-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" href="//code.jquery.com/ui/1.13.2/themes/base/jquery-ui.css">
+        <script src="https://code.jquery.com/jquery-3.6.0.js"></script>
+        <script src="https://code.jquery.com/ui/1.13.2/jquery-ui.js"></script>
         <title>Capstone</title>
     </head>
     <body>
         <br>
-        <?php
-            while($row = $allArtists->fetch_assoc()) {
-                echo "id: " . $row["id"]. " - Name: " . $row["artist_name"]. " has " . number_format($row["listeners"]) . " listeners" . "<br>"; ?>
-                <img src="<?= $row["artist_image"]?>" width="100" height="100">
-            <?php
-            
-            }
-            
-            ?>
-            
-        <h1>
-            <img src="">
-        </h1>
+
+        <div id="tabs">
+            <ul>
+                <li><a href="#tabs-1">Top Artists</a></li>
+                <li><a href="#tabs-2">Top Songs</a></li>
+            </ul>
+            <div id="tabs-1">
+                <?php
+                while($row = $allArtists->fetch_assoc()) { 
+                    $artist = str_replace(" ", "+", $row["artist_name"]); ?>
+                    <a href="artist.php/?artist=<?= $artist ?>">
+                    <?= "<br>" . $row["id"]. " - " . $row["artist_name"] .  "<br>"; ?>
+                    <img src="<?= $row["artist_image"]?>" width="100" height="100">
+                    <br>
+                    </a>
+                <?php } ?>
+            </div>
+            <div id="tabs-2">
+                <?php
+                while($row = $allTracks->fetch_assoc()) {
+                    $song = str_replace(" ", "+", $row["song_name"]); ?>
+                    <a href="song.php/?song=<?= $song ?>">
+                    <?= "<br>" . $row["id"] . $row["song_name"] . " by " . $row["artist_name"] . "<br>"; ?>
+                    <img src="<?= $row["album_image"]?>" width="100" height="100">
+                    <br>
+                    </a>
+                <?php } ?>
+            </div>
+        </div>
     </body>
+    <script src="./includes/script.js"></script>
 </html>

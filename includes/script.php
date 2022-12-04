@@ -159,7 +159,6 @@
             $result = $conn->query($sql);
 
             if ($result->num_rows > 0) {
-                echo "Queryed";
                 return $result;
             } else {
                 echo "error querying records ";
@@ -178,7 +177,6 @@
             $result = $conn->query($sql);
 
             if ($result->num_rows > 0) {
-                echo "Queryed";
                 return $result;
             } else {
                 echo "error querying records ";
