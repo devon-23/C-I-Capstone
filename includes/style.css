@@ -1,4 +1,42 @@
+* {
+    /* border: 1px solid blue; */
+}
+
 .tabs {
     width: 50vw !important;
     height: 900px;
+}
+
+.ui-widget.ui-widget-content {
+    width: 80vw;
+    margin: 0 auto;
+    background-color: rgba(193, 193, 240, 0.223);
+}
+
+.ui-tabs .ui-tabs-nav {
+    background-color: rgb(181, 204, 234);
+    /* margin: 0 auto; */
+    text-align: center;
+}
+
+.ui-state-active, .ui-widget-content .ui-state-active, .ui-widget-header .ui-state-active, a.ui-button:active, .ui-button:active, .ui-button.ui-state-active:hover {
+    border: 1px solid rgb(199, 199, 255) !important;
+    background: rgb(255, 199, 205) !important;
+}
+
+.ui-widget-header {
+    border: none;
+}
+
+.ui-tabs .ui-tabs-nav {
+    text-align: center;
+}
+
+.ui-tabs .ui-tabs-nav li {
+    float: none !important;
+    display: inline-block;
+}
+
+a {
+    text-decoration: none;
 }
