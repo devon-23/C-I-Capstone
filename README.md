@@ -5,7 +5,7 @@ Fall 2022.
 Group members:
 - Devon Barclay
 - William Fritz
--
+- Thomas Disimile
 
 Goals of this project:
 - Connect to an API
