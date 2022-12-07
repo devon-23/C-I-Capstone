@@ -34,4 +34,5 @@
                     </div>
                 <?php } ?>
     </body>
+    <script src="./includes/script.js"></script>
 </html>
