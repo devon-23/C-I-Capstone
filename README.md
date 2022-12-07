@@ -4,7 +4,7 @@ Fall 2022.
 
 Group members:
 - Devon Barclay
--
+- William Fritz
 -
 
 Goals of this project:
