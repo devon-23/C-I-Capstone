@@ -5,7 +5,13 @@
     $conn = getDB();
     $capstone = new Capstone("092d316884d8385f35ad8b84f5f42ef8");
   
-    $allArtists = $capstone->getAllArtists($conn);
+    // $allArtists = $capstone->getAllArtists($conn);
+
+    if(isset($_GET['id'])) {
+        $artist = $capstone->getArtist($conn, $_GET['id']);
+    } else {
+        $artist = null;
+    }
 
 ?>
 
@@ -19,21 +25,18 @@
         <script src="https://code.jquery.com/ui/1.13.2/jquery-ui.js"></script>
         <link rel="stylesheet" type="text/css" href="includes/style.css">
         <title>Capstone</title>
-        <h1>Top Artists</h1>
+        <form>
+            <input id="back" type="button" value="back" onclick="history.go(-1)">
+        </form>
     </head>
-    <div id="tabs">
-            <div>
-                <?php while($row = $allArtists->fetch_assoc()) { 
-                    $artist = str_replace(" ", "+", $row["artist_name"]); ?>
-                    <div class="information-container">
-                        <a href="artist.php?artist=<?= $artist ?>">
-                            <?= "<br>" . $row["id"]. " - " . $row["artist_name"] .  "<br>"; ?>
-                            <img src="<?= $row["artist_image"]?>" width="100" height="100">
-                            <br>
-                        </a>
-                    </div>
-                <?php } ?>
-            </div>
-         </head>
+    <body>
+        <h1><?= $artist['artist_name']; ?></h1><br>
+        <h2><?= $artist['artist_name']; ?> has <?= number_format($artist['listeners']) ?> listeners</h2>
+
+        <img src="<?= $artist['artist_image'] ?>" height=200px width=200px>
+        <h2><?= $artist['artist_name']; ?>'s most popular song is <?= strstr($artist['youtube_title'], '- '); ?></h2>
+        <iframe width="420" height="315" src="https://www.youtube.com/embed/<?= $artist['videoID']; ?>"></iframe>
+        <h5><?= $artist['youtube_description'] ?></h5>
+    </body>
     <script src="./includes/script.js"></script>
 </html>

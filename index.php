@@ -39,10 +39,9 @@
                 <li><a href="#tabs-2">Top Songs</a></li>
             </ul>
             <div id="tabs-1">
-                <?php while($row = $allArtists->fetch_assoc()) { 
-                    $artist = str_replace(" ", "+", $row["artist_name"]); ?>
+                <?php while($row = $allArtists->fetch_assoc()) { ?>
                     <div class="information-container">
-                        <a href="artist.php/?artist=<?= $artist ?>">
+                        <a href="artist.php/?id=<?= $row["id"] ?>">
                             <?= "<br>" . $row["id"]. " - " . $row["artist_name"] .  "<br>"; ?>
                             <img src="<?= $row["artist_image"]?>" width="100" height="100">
                             <br>
@@ -51,11 +50,10 @@
                 <?php } ?>
             </div>
             <div id="tabs-2">
-                <?php while($row = $allTracks->fetch_assoc()) {
-                    $song = str_replace(" ", "+", $row["song_name"]); ?>
+                <?php while($row = $allTracks->fetch_assoc()) { ?>
                     <div class="information-container">
-                        <a href="song.php/?song=<?= $song ?>">
-                            <?= "<br>" . $row["id"] . $row["song_name"] . " by " . $row["artist_name"] . "<br>"; ?>
+                        <a href="song.php/?id=<?= $row["id"] ?>">
+                            <?= "<br>" . $row["id"] . " - " . $row["song_name"] . " by " . $row["artist_name"] . "<br>"; ?>
                             <img src="<?= $row["album_image"]?>" width="100" height="100">
                             <br>
                         </a>

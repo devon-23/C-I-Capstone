@@ -5,7 +5,13 @@
     $conn = getDB();
     $capstone = new Capstone("092d316884d8385f35ad8b84f5f42ef8");
 
-    $allTracks = $capstone->getAllTracks($conn);
+    // $allTracks = $capstone->getAllTracks($conn);
+
+    if(isset($_GET['id'])) {
+        $song = $capstone->getSong($conn, $_GET['id']);
+    } else {
+        $song = null;
+    }
 
 ?>
 
@@ -19,20 +25,19 @@
         <script src="https://code.jquery.com/jquery-3.6.0.js"></script>
         <script src="https://code.jquery.com/ui/1.13.2/jquery-ui.js"></script>
         <link rel="stylesheet" type="text/css" href="includes/style.css">
-        <title>Top Songs</title>
+        <title><?= $song['song_name']; ?></title>
+        <form>
+            <input id="back" type="button" value="back" onclick="history.go(-1)">
+        </form>
     </head>
     <body>
-    <?php 
-        while($row = $allTracks->fetch_assoc()) {
-                    $song = str_replace(" ", "+", $row["song_name"]); ?>
-                    <div class="information-container">
-                        <a href="song.php/?song=<?= $song ?>">
-                            <?= "<br>" . $row["id"]. " - " . $row["song_name"] . " by " . $row["artist_name"] . $row["playcount"] . $row["listeners"] . "<br>"; ?>
-                            <img src="<?= $row["album_image"]?>" width="100" height="100">
-                            <br>
-                        </a>
-                    </div>
-                <?php } ?>
+        <h1><?= $song['song_name']; ?> by <?= $song['artist_name']; ?></h1>
+        <br>
+        <h3><?= $song['song_name']; ?> has <?= number_format($song['playcount']) ?> plays</h3>
+        <img src="<?= $song['album_image']; ?>" height=200px width=200px>
+        <br>
+        <iframe width="420" height="315" src="https://www.youtube.com/embed/<?= $song['videoID']; ?>"></iframe>
+        <h5><?= $song['youtube_description'] ?></h5>
     </body>
     <script src="./includes/script.js"></script>
 </html>
